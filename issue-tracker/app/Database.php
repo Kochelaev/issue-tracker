@@ -16,10 +16,10 @@ class Database extends Singleton
         $dbname = getenv('DB_DATABASE');
         $password = getenv('DB_PASSWORD');
         $user = getenv('DB_USERNAME');
-        $password = getenv('DB_PASSWORD');      
-        
+        $password = getenv('DB_PASSWORD');
+
         $dsn = "$connect:host=$host;port=$port;dbname=$dbname";
-        
+
         $this->pdo = new PDO(
             $dsn,
             $user,
@@ -27,9 +27,13 @@ class Database extends Singleton
         );
     }
 
-    public function query(string $query) : self
+    public function __call($name, $args)
+	{
+		return call_user_func_array(array($this->pdo, $name), $args);
+	}
+
+    public function getPdo(): PDO
     {
-        $this->pdo->query($query);
-        return $this;
+        return $this->pdo;
     }
 }

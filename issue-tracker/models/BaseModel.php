@@ -2,7 +2,7 @@
 
 namespace Models;
 
-Abstract Class BaseModel
+abstract class BaseModel
 {
     public static function hello()
     {

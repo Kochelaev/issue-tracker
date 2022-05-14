@@ -1,5 +1,6 @@
 <?php
 
+
 return
 [
     'paths' => [
@@ -10,31 +11,16 @@ return
         'default_migration_table' => 'phinxlog',
         'default_environment' => 'development',
         'production' => [
-            'adapter' => 'mysql',
-            'host' => 'localhost',
-            'name' => 'production_db',
-            'user' => 'root',
-            'pass' => '',
-            'port' => '3306',
-            'charset' => 'utf8',
+            'name' => $dbname,
+            'connection' => $pdo,
         ],
         'development' => [
-            'adapter' => 'mysql',
-            'host' => 'localhost',
-            'name' => 'development_db',
-            'user' => 'root',
-            'pass' => '',
-            'port' => '3306',
-            'charset' => 'utf8',
+            'name' => $dbname,
+            'connection' => $pdo,
         ],
         'testing' => [
-            'adapter' => 'mysql',
-            'host' => 'localhost',
-            'name' => 'testing_db',
-            'user' => 'root',
-            'pass' => '',
-            'port' => '3306',
-            'charset' => 'utf8',
+            'name' => $dbname,
+            'connection' => $pdo,
         ]
     ],
     'version_order' => 'creation'
