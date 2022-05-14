@@ -1,5 +1,5 @@
 /.docker/db
 /issue-tracker/vendor
-/issue-tracker/chache/
-/issue-tracker/compile/
+/issue-tracker/chache/*
+/issue-tracker/compile/*
 /issue-tracker/.env
