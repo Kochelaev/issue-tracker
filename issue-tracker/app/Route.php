@@ -8,7 +8,7 @@ class Route
     {
         $uri = $_SERVER['REQUEST_URI'];
         $action = substr(strrchr($uri, '.'), 1) ?: $defAction;
-        $uri = rtrim($uri, '.' . $action);
+        $uri = substr($uri, 0, strrpos($uri, '.'));
         $uriParts = explode('/', $uri);
         array_walk($uriParts, function (&$value) {
             $value = ucfirst($value);

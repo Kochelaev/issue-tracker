@@ -9,17 +9,17 @@ use josegonzalez\Dotenv\Loader;
 
 (new Loader('../.env'))->parse()->putenv();
 
-Route::findActionForURI('Home', 'main');
 
-$issue = new Issue();
+
+
+Route::findActionForURI('Issue', 'list');
+
+// $issue = new Issue();
 echo "<pre>";
-$data = [
-    'email' => 'user@mail.ru',
-    'title' => 'title',
-    'description' => 'description',
-];
-$issue->insert($data);
-
+print_r($_SERVER);
+// print_r(
+// $issue->getForPage()
+// );
 // Auth::register([
 //     'email'    => 'auth2',
 //     'password' => '123',
