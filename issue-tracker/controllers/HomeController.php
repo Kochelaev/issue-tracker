@@ -9,7 +9,6 @@ class HomeController extends BaseController
 
     public function main()
     {
-        Issue::hello();
         $this->smarty->display('index.tpl');
     }
     

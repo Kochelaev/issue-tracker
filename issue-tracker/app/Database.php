@@ -28,9 +28,9 @@ class Database extends Singleton
     }
 
     public function __call($name, $args)
-	{
-		return call_user_func_array(array($this->pdo, $name), $args);
-	}
+    {
+        return call_user_func_array(array($this->pdo, $name), $args);
+    }
 
     public function getPdo(): PDO
     {

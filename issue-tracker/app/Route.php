@@ -7,13 +7,13 @@ class Route
     public static function findActionForURI(string $defController, string $defAction): void
     {
         $uri = $_SERVER['REQUEST_URI'];
-        $action = substr(strrchr($uri, '.'), 1)?: $defAction;
+        $action = substr(strrchr($uri, '.'), 1) ?: $defAction;
         $uri = rtrim($uri, '.' . $action);
         $uriParts = explode('/', $uri);
         array_walk($uriParts, function (&$value) {
-            $value = ucfirst($value); 
+            $value = ucfirst($value);
         });
-        $controller = array_pop($uriParts)?: $defController;
+        $controller = array_pop($uriParts) ?: $defController;
         $namespace = implode('\\', ($uriParts));
 
         $controller = 'Controllers' . $namespace . '\\' . $controller . 'Controller';

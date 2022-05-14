@@ -7,13 +7,10 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 
 class Auth extends Singleton
 {
-    //стоит ли инкапсулировать? похоже что стоит, иначе рискуем вызвать destruct
-    private $capsule;
-
     protected function __construct()
     {
-        $GLOBALS['capsule'] = new Capsule;
-        $GLOBALS['capsule']->addConnection([     // вставь getEnv
+        $capsule = new Capsule;
+        $capsule->addConnection([     // вставь getEnv
             'driver'    => 'mysql',
             'host'      => 'issue-tracker-mysql',
             'database'  => 'tracker',
@@ -22,13 +19,12 @@ class Auth extends Singleton
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
         ]);
-        $GLOBALS['capsule']->bootEloquent();
+        $capsule->bootEloquent();
     }
 
     public static function __callStatic($method, $args)
     {
         self::getInstance();
-        return forward_static_call_array(array('Sentinel', $method), $args);
-        // не факт что работает.
+        return forward_static_call_array(array(Sentinel::class, $method), $args);
     }
 }
