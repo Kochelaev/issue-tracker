@@ -20,6 +20,7 @@ class Auth extends Singleton
             'collation' => 'utf8_unicode_ci',
         ]);
         $capsule->bootEloquent();
+        Sentinel::disableCheckpoints();
     }
 
     public static function __callStatic($method, $args)

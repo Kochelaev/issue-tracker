@@ -2,20 +2,36 @@
 
 namespace Controllers;
 
+use App\Auth;
+use App\Route;
+use App\Cookier;
+
 class AuthController extends BaseController
 {
-    public function authForm()
+    public function authform()
     {
-        echo __METHOD__;
+        if (Auth::guest())
+            $this->smarty->display('auth/authform.tpl');
+        else Route::redirect();
     }
 
     public function login()
     {
-        echo __METHOD__;
+        $credentials = [
+            'email'    => $_POST['email'],
+            'password' => $_POST['password'],
+        ];
+        if (Auth::forceAuthenticateAndRemember($credentials)) 
+            Route::redirect();
+        else {
+            Cookier::setWarning('Неверный логин или пароль');
+            Route::redirectBack();
+        }
     }
 
     public function logout()
     {
-        echo __METHOD__;
+        Auth::logout();
+        Route::redirectBack();
     }
 }

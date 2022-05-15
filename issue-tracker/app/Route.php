@@ -7,6 +7,8 @@ class Route
     public static function findActionForURI(string $defController, string $defAction): void
     {
         $uri = $_SERVER['REQUEST_URI'];
+        if (strpos($uri, '?'))
+            $uri = substr($uri, 0, strrpos($uri, '?'));
         $action = substr(strrchr($uri, '.'), 1) ?: $defAction;
         $uri = substr($uri, 0, strrpos($uri, '.'));
         $uriParts = explode('/', $uri);
@@ -30,9 +32,15 @@ class Route
     }
 
     //maybei redirtct to controller\action?
-    public static function redirect(string $adress = null): void
+    public static function redirect(string $uri = null): void
     {
-        $adress = $adress ?: $_SERVER['HTTP_REFERER'];
+        $adress = 'http://' . $_SERVER['HTTP_HOST'] . "/$uri";
+        header("Location: $adress");
+    }
+
+    public static function redirectBack(): void
+    {
+        $adress = $_SERVER['HTTP_REFERER'];
         header("Location: $adress");
     }
 }

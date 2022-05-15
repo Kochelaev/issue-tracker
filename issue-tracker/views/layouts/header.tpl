@@ -11,29 +11,33 @@
 <body>
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="http://localhost:8001">
+            <a class="navbar-brand" href="http://{getenv('HOST')}">
                 Issue tracker
             </a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
                 <ul class="navbar-nav ms-auto">                       
                         
+                    
                     <li class="nav-item pl-3">
-                        <a class="nav-link" href="http://localhost:8001/login">Вход</a>
-                    </li>
+                        {if $user = $Auth::check()}
+                             Вы вошли как: {$user->email}
+                            <a class="nav-link" href="http://{getenv('HOST')}/Auth.logout">Выйти</a>
                             
-                    <li class="nav-item">
-                        <a class="nav-link" href="http://localhost:8001/register">Регистрация</a>
+                        {else}
+                           <a class="nav-link" href="http://{getenv('HOST')}/Auth.authform">Вход</a>
+                        {/if}
                     </li>
+           
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="container mt-4 pt-1"> 
-        Это мой tpl
-        $data = {$data}
-    </div>
-
-</body>
-</html>
+    <div class="container mt-2 pt-1"> 
+        
+        {if $warning}
+        <div class="alert alert-danger mt-2" role="alert">
+            {$warning}
+        </div>
+        {/if}

@@ -18,7 +18,9 @@ abstract class BaseModel
     public function getAll(): array
     {
         $query = "SELECT * FROM $this->table ORDER BY 'id' DESC";
-        return $this->db->query($query)->fetchAll();
+        if ($response = $this->db->query($query))
+            return $response->fetchAll();
+        else return [];
     }
 
     public function insert(array $modelData): self
@@ -32,11 +34,15 @@ abstract class BaseModel
         return $this;
     }
 
-    public function getForPage(int $page = 1, $perPage = 3): array
+    public function getForPage($page = 1, $perPage = null): array
     {
+        $page = $page?:1;
+        $perPage = $perPage?: getenv('PER_PAGE');
         $start = $perPage * ($page - 1);
         $query = "SELECT * FROM $this->table LIMIT $start, $perPage;";
-        return $this->db->query($query)->fetchAll();
+        if ($response = $this->db->query($query))
+            return $response->fetchAll();
+        else return [];
     }
 
     public function getCount()
