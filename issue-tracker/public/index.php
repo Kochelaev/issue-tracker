@@ -7,9 +7,4 @@ use josegonzalez\Dotenv\Loader;
 
 (new Loader('../.env'))->parse()->putenv();
 
-$foo = 'foo';
-unset($foo);
-print_r($foo);
-
 Route::findActionForURI('Issue', 'list');
-

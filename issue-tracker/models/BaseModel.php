@@ -45,7 +45,7 @@ abstract class BaseModel
         else return [];
     }
 
-    public function getCount()
+    public function getCount(): ?int
     {
         $query = "SELECT COUNT(id) FROM $this->table;";
         return $this->db->query($query)->fetch()[0];

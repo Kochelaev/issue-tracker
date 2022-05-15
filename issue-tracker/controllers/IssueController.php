@@ -2,18 +2,20 @@
 
 namespace Controllers;
 
-use Models\Issue;
-use Controllers\BaseController;
 use App\Auth;
+use App\Paginator;
+use Controllers\BaseController;
+use Models\Issue;
 
 class IssueController extends BaseController
 {
     public function list()
     {
-        // echo "user voshel <pre>"; print_r(Auth::check());
-        // echo "</pre>";
         $model = new issue();
         $issues = $model->getForPage($_GET['page']);
+        $paginator = new Paginator($model->getCount(), $_GET['page'], getenv('PER_PAGE'));
+        $paginator = $paginator->getBootstrapLinks();
+        $this->smarty->assign('paginator', $paginator);
         $this->smarty->assign('issues', $issues);//->assign('warning', 'warning!');
         $this->smarty->display('issue/list.tpl');
     }
