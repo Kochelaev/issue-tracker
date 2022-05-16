@@ -34,7 +34,7 @@ abstract class BaseModel
         return $this;
     }
 
-    public function getForPage($page = 1, $perPage = null): array
+    public function getForPage($page = 1, $order='id', $perPage = null): array
     {
         $page = $page?:1;
         $perPage = $perPage?: getenv('PER_PAGE');

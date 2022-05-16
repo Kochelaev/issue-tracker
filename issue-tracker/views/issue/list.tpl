@@ -1,5 +1,34 @@
 {include file='layouts/header.tpl'}
 
+ <div>
+    {* <form action="page/new.html"> *}
+        <button  class="btn btn-primary mt-4">
+            Создать новую задачу
+        </button>
+    {* </form> *}
+    <form method="get" class="mt-4">
+        сортировать по: 
+        <select name="sort">
+             <option value="name">Имя пользователя</option>
+             <option value="email">email</option>
+             <option value="status">статус</option>
+           </select>
+           <input class="btn" type="submit" value="сортировать">
+    {if $smarty.get.page}
+        <input type="hidden"  name="page" value="{$smarty.get.page}">
+        <a class="btn" href="?page={$smarty.get.page}" >сбросить фильтр</a>
+    {else}
+       <a class="btn" href="/" >сбросить фильтр</a>
+    {/if}
+       
+       
+    </form>
+    </form>
+</div>
+
+
+
+ {* Возможно стоило бы разбить на две разные вьюхи *}
 {if $Auth::check()}
     <div class = "m-3 p-3">
         {foreach item=issue from=$issues}
@@ -55,10 +84,6 @@
 {if $paginator}
     <div class = "text-center"> {$paginator} </div>
 {/if}
-<div>
-    <button target="/fasfa" type="submit" class="btn btn-primary mt-4">
-        Создать новую задачу
-    </button>
-</div>
+
 
 {include file='layouts/footer.tpl'}

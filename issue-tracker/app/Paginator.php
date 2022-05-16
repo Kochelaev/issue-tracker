@@ -2,7 +2,7 @@
 
 namespace App;
 
-use LDAP\Result;
+use App\Route;
 
 class Paginator
 {
@@ -13,7 +13,7 @@ class Paginator
 
     public function __construct(int $itemCount, $activePage = 1, int $perPage = 3, int $leight = 2)
     {
-        $this->activePage = $activePage? : 1;
+        $this->activePage = $activePage ?: 1;
         $this->perPage = $perPage;
         $this->leight = $leight;
         $this->pagesCount = (int)($itemCount / $perPage + ($itemCount % $perPage ? 1 : 0));
@@ -25,15 +25,18 @@ class Paginator
         $uri = $_SERVER['REQUEST_URI'];
         if (strpos($uri, '?'))
             $uri = substr($uri, 0, strrpos($uri, '?'));
-        $adress = 'http://' . $_SERVER['HTTP_HOST'] . $uri;
+        $unsetPage = ['page' => null];
+        //будут проблемы с переходом на https
+        $adress = 'http://' . Route::modifyActiveUrlQueryParams($unsetPage);
         if ($this->pagesCount) {
             $result = "<ul class=\"pagination justify-content-center\">\n";
             foreach ($this->linksData as $link) {
                 $active = $link['active'] ? 'active' : null;
                 $literal = $link['literal'];
-                if (!empty($link['link']))
-                    $href = "href = \"$adress?page=$link[link]\"";
-                else
+                if (!empty($link['link'])) {
+                    $query = empty($_GET) ? "page=$link[link]" : "&page=$link[link]";
+                    $href = 'href = "' . $adress . $query . "\"";
+                } else
                     $href = null;
                 $result = $result . "<li class=\"page-item $active\"><a class=\"page-link\"$href>$literal</a></li>\n";
             }
@@ -42,11 +45,11 @@ class Paginator
         return $result;
     }
 
-    public function getLinksData(): array
+    public function getPagesCount() : int 
     {
-        return $this->linksData;
+        return $this->pagesCount;
     }
-
+  
     private function calculateLinksData(): void
     {
         $this->linksData = [];

@@ -7,4 +7,21 @@ use josegonzalez\Dotenv\Loader;
 
 (new Loader('../.env'))->parse()->putenv();
 
-Route::findActionForURI('Issue', 'list');
+set_error_handler(function ($errno, $errstr) {
+    if ($errno === E_WARNING) {
+        trigger_error($errstr, E_ERROR);
+        throw new Error();
+        return true;
+    }
+});
+
+try {
+    ob_start();
+    Route::findActionForURI('Issue', 'list');
+} catch (Error $t) {
+    ob_clean();
+    echo ('ой, вы что то сломали<br>');
+    die($t->getMessage());
+} finally {
+    restore_error_handler();
+}
