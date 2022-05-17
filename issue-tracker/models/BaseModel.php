@@ -4,11 +4,14 @@ namespace Models;
 
 use App\Database;
 
+// use App\Cookier;
+
 abstract class BaseModel
 {
     protected $db;
-    protected $table;
-    protected $fillables;
+    protected $table;       //
+    protected $fillables;   //
+    protected $sorters;    // можно убрать, назначаются в наследниках
 
     public function __construct()
     {
@@ -28,20 +31,26 @@ abstract class BaseModel
         $modelData = array_intersect_key($modelData, array_flip($this->fillables));
         $preparedKeys = implode(', :', array_keys($modelData));
         $keys = implode(',', array_keys($modelData));
-        $query = "INSERT INTO $this->table ($keys) VALUES (:$preparedKeys);"; //;
+        $query = "INSERT INTO $this->table ($keys) VALUES (:$preparedKeys);";
         $prepare = $this->db->prepare($query);
         $prepare->execute($modelData);
         return $this;
     }
 
-    public function getForPage($page = 1, $order='id', $perPage = null): array
+    public function getForPage(?int $page = 1, ?string $order = 'id', int $perPage = null): array
     {
-        $page = $page?:1;
-        $perPage = $perPage?: getenv('PER_PAGE');
+        $page = $page ?: 1;
+        if (is_array($this->sorters))
+            $order = in_array($order, $this->sorters) ? $order : 'id';
+        else $order = 'id';
+        $perPage = $perPage ?: getenv('PER_PAGE');
         $start = $perPage * ($page - 1);
-        $query = "SELECT * FROM $this->table LIMIT $start, $perPage;";
-        if ($response = $this->db->query($query))
-            return $response->fetchAll();
+        $query =  "SELECT * FROM $this->table
+        ORDER BY `$order`
+        LIMIT $start, $perPage;";
+        $result = $this->db->query($query);
+        if ($result)
+            return $result->fetchAll();
         else return [];
     }
 

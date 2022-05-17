@@ -34,7 +34,7 @@
         </div>
     </nav>
 
-    <div class="container mt-2 pt-1"> 
+    <div class="container mt-2 pt-1 mb-4"> 
         
         {if $warning}
         <div class="alert alert-danger mt-2" role="alert">

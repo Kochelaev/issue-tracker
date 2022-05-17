@@ -13,4 +13,10 @@ class Issue extends BaseModel
         'updated_by',
         'status',
     ];
+
+    protected $sorters = [
+        'status',
+        'name',
+        'email',
+    ];
 }

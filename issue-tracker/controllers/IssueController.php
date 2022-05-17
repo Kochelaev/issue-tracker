@@ -13,10 +13,10 @@ class IssueController extends BaseController
     public function list()
     {
         $model = new issue();
-        $issues = $model->getForPage($_GET['page']);
+        $issues = $model->getForPage($_GET['page'], $_GET['sort']);
         $paginator = new Paginator($model->getCount(), $_GET['page'], getenv('PER_PAGE'));
-        if (($paginator->getPagesCount()) < ($_GET['page']?:1) || $_GET['page'] < 0 )
-            throw new Error('нет такой страницы');
+        if (($paginator->getPagesCount()) < ($_GET['page']) || $_GET['page'] < 0 )
+            throw new Error('нет такой страницы');      //желательно делегировать проверку какому-либо классу 
         $this->smarty->assign('paginator', $paginator->getBootstrapLinks());
         $this->smarty->assign('issues', $issues);
         $this->smarty->display('issue/list.tpl');

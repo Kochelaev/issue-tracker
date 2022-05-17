@@ -26,10 +26,10 @@ class Paginator
         if (strpos($uri, '?'))
             $uri = substr($uri, 0, strrpos($uri, '?'));
         $unsetPage = ['page' => null];
-        //будут проблемы с переходом на https
+        //будут проблемы с переходом например на https
         $adress = 'http://' . Route::modifyActiveUrlQueryParams($unsetPage);
         if ($this->pagesCount) {
-            $result = "<ul class=\"pagination justify-content-center\">\n";
+            $result = "<ul class=\"pagination justify-content-center mt-2 mb -2\">\n";
             foreach ($this->linksData as $link) {
                 $active = $link['active'] ? 'active' : null;
                 $literal = $link['literal'];
