@@ -9,7 +9,7 @@ class Issue extends BaseModel
         'email',
         'name',
         'title',
-        // 'description',
+        'description',
         'updated_by',
         'status',
     ];

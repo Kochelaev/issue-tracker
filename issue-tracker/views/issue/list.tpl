@@ -1,9 +1,6 @@
 {include file='layouts/header.tpl'}
 
  <div>
-    
-        
-    
     <form method="get" class="mt-4">
         сортировать по: 
         <select name="sort">
@@ -18,9 +15,6 @@
     {else}
        <a class="btn" href="/" >сбросить фильтр</a>
     {/if}
-       
-       
-    </form>
     </form>
 </div>
 
@@ -30,7 +24,7 @@
 {if $Auth::check()}
     <div class = "m-3 p-3">
         {foreach item=issue from=$issues}
-            <div class="alert alert-primary">            
+            <div class="alert-primary">            
                 <div>email: {$issue.email}</div>
                 {if $issue.name}<div>Создана: {$issue.name}</div>{/if}
                 <div>Статус задачи: {if $issue.status}закрыта{else}открыта{/if}</div>
