@@ -18,8 +18,6 @@
     </form>
 </div>
 
-
-
  {* Возможно стоило бы разбить на две разные вьюхи *}
 {if $Auth::check()}
     
@@ -59,7 +57,7 @@
                 <div class="alert alert-primary">            
                     <div>email: {$issue.email}</div>
                     {if $issue.name}<div>Создана: {$issue.name}</div>{/if}
-                    <div>Статус задачи: {if $issue.status}открыта{else}закрыта{/if}</div>
+                    <div>Статус задачи: {if $issue.status}закрыта{else}открыта{/if}</div>
                     <div class = "lead text-left">
                             Задача: {$issue.title}
                     </div>

@@ -2,20 +2,29 @@
 
 namespace Controllers\Admin;
 
-use App\Paginator;
-use Models\Issue;
+use App\Auth;
 use Controllers\BaseController;
-use Error;
+use Models\Issue;
 
 class IssueController extends BaseController
 {
+    public function __construct()
+    {
+        if (Auth::guest()) throw new \Error('У Вас недостаточно прав');
+    }
 
     public function updateForm()
     {
-        echo __METHOD__;
+        $arr = [
+            'email' => 'test@mail.ru',
+            'name'  => 'Васиииилий',
+            'ordered_by' 
+        ];
+        $issue = new Issue();
+        print_r($issue->update($_GET['id'], $arr));
     }
 
-    public function update() //времянка для теста
+    public function update() 
     {
         echo __METHOD__;
     }

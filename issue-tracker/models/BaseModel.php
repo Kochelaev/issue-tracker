@@ -35,7 +35,7 @@ abstract class BaseModel
         $perPage = $perPage ?: getenv('PER_PAGE');
         $start = $perPage * ($page - 1);
         $query =  "SELECT * FROM $this->table
-        ORDER BY `$order`
+        ORDER BY `$order`            -- `` подходят только для MySQL? других способов экранирования я не нашел
         LIMIT $start, $perPage;";
         $result = $this->db->query($query);
         if ($result)
@@ -66,5 +66,20 @@ abstract class BaseModel
         $prepare = $this->db->prepare($query);
         $prepare->execute($modelData);
         return $this;
+    }
+
+    public function update(int $id, $modelData)
+    {
+        $modelData = array_intersect_key($modelData, array_flip($this->fillables));
+        $setString = '';
+        foreach ($modelData as $key => $value) {
+            $setString .= " `$key` =:$key,";
+        }
+        $setString = rtrim($setString, ',');
+        $query = "UPDATE $this->table SET
+        $setString
+        WHERE id = '$id';";
+        $prepare = $this->db->prepare($query);
+        return $prepare->execute($modelData);
     }
 }
