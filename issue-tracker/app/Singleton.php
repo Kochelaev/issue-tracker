@@ -2,7 +2,7 @@
 
 namespace App;
 
-class Singleton
+Abstract class Singleton
 {
     private static $instances = [];
 

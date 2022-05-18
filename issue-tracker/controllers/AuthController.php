@@ -3,8 +3,8 @@
 namespace Controllers;
 
 use App\Auth;
-use App\Route;
 use App\Cookier;
+use App\Route;
 
 class AuthController extends BaseController
 {

@@ -21,12 +21,12 @@ class Route
         // разбей на 2 метода
         $controller = 'Controllers' . $namespace . '\\' . $controller . 'Controller';
         if (!class_exists($controller)) {
-            throw new \ErrorException("Controller $controller does not exist");
+            throw new \Error("Controller $controller does not exist");
         }
 
         $objController = new $controller;
         if (!method_exists($objController, $action)) {
-            throw new \ErrorException("Method $action of $controller does not exist");
+            throw new \Error("Method $action of $controller does not exist");
         }
 
         $objController->$action();
