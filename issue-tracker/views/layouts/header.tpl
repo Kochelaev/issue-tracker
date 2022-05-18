@@ -11,9 +11,16 @@
 <body>
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="http://{getenv('HOST')}">
+            <a class="navbar-brand" href="http://{$smarty.server.HTTP_HOST}">
                 Issue tracker
             </a>
+            
+            <div class='ml-4'>
+                <a href = "http://{$smarty.server.HTTP_HOST}/issue.addform" class="btn btn-primary pl-4 ml-4">
+                    Создать новую задачу
+                </a>
+            </div>
+
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
                 <ul class="navbar-nav ms-auto">                       
@@ -22,10 +29,10 @@
                     <li class="nav-item pl-3">
                         {if $user = $Auth::check()}
                              Вы вошли как: {$user->email}
-                            <a class="nav-link" href="http://{getenv('HOST')}/Auth.logout">Выйти</a>
+                            <a class="nav-link" href="http://{$smarty.server.HTTP_HOST}/Auth.logout">Выйти</a>
                             
                         {else}
-                           <a class="nav-link" href="http://{getenv('HOST')}/Auth.authform">Вход</a>
+                           <a class="nav-link" href="http://{$smarty.server.HTTP_HOST}/Auth.authform">Вход</a>
                         {/if}
                     </li>
            

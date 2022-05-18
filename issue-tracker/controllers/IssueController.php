@@ -4,9 +4,10 @@ namespace Controllers;
 
 use App\Auth;
 use App\Paginator;
-use Controllers\BaseController;
+use App\Route;
+// use Controllers\BaseController;
 use Models\Issue;
-use Error;
+use Error;      // перенеси
 
 class IssueController extends BaseController
 {
@@ -24,16 +25,18 @@ class IssueController extends BaseController
 
     public function display()
     {
-        echo __METHOD__;
+        ssue->smarty->
     }
     
     public function addForm()
     {
-        echo __METHOD__;
+        $this->smarty->display('issue/addform.tpl');
     }
 
     public function post()
     {
-        echo __METHOD__;
+        $issue = new Issue();
+        $issue->insert($_POST);
+        Route::redirect();
     }
 }

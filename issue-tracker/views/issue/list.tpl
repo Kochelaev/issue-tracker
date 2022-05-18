@@ -1,11 +1,9 @@
 {include file='layouts/header.tpl'}
 
  <div>
-    {* <form action="page/new.html"> *}
-        <button  class="btn btn-primary mt-4">
-            Создать новую задачу
-        </button>
-    {* </form> *}
+    
+        
+    
     <form method="get" class="mt-4">
         сортировать по: 
         <select name="sort">
