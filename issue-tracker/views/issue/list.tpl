@@ -24,8 +24,8 @@
 {if $Auth::check()}
     <div class = "m-3 p-3">
         {foreach item=issue from=$issues}
-            <div class="alert-primary">            
-                <div>email: {$issue.email}</div>
+            <div class="alert alert-primary">            
+                <div>Email: {$issue.email}</div>
                 {if $issue.name}<div>Создана: {$issue.name}</div>{/if}
                 <div>Статус задачи: {if $issue.status}закрыта{else}открыта{/if}</div>
                 <div class = "lead text-left">
