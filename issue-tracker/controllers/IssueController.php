@@ -2,20 +2,23 @@
 
 namespace Controllers;
 
-use App\Auth;
 use App\Paginator;
 use App\Route;
+use App\Validator;
 use Models\Issue;
 
 class IssueController extends BaseController
 {
     public function list()
     {
+        $perPage = getenv('PER_PAGE');
         $model = new issue();
-        $issues = $model->getForPage($_GET['page'], $_GET['sort']);
-        $paginator = new Paginator($model->getCount(), $_GET['page'], getenv('PER_PAGE'));
+        $issues = $model->getForPage($_GET['page'], $_GET['sort'], $perPage);
+        
+        $paginator = new Paginator($model->getCount(), $_GET['page'], $perPage);
         if (($paginator->getPagesCount()) < ($_GET['page']) || $_GET['page'] < 0)
-            throw new \Error('нет такой страницы');      //желательно делегировать проверку какому-либо классу 
+            throw new \Error('нет такой страницы');
+
         $this->smarty->assign('issues', $issues)
             ->assign('paginator', $paginator->getBootstrapLinks())
             ->display('issue/list.tpl');
@@ -25,8 +28,10 @@ class IssueController extends BaseController
     {
         $model = new Issue();
         $issue = $model->find(intval($_GET['id']));
+
         if (empty($issue))
-            throw new \Error('нет такой задачи');    //желательно делегировать проверку какому-либо классу 
+            throw new \Error('нет такой задачи');    
+            
         $this->smarty->assign('issue', $issue);
         $this->smarty->display('issue/display.tpl');
     }
@@ -38,10 +43,14 @@ class IssueController extends BaseController
 
     public function post()
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {             //исключи из запроса поле updated_by
-            $issue = new Issue();
-            $issue->insert($_POST);
-        } else throw new \Error('тут нужен метод POST');
+        Validator::CheckPostMethod();
+        $request = (new Validator())->prepareRequst()->getRequest();
+        $request['updated_by'] = null; 
+        
+        $issue = new Issue();
+        $issue->insert($request);
+
         Route::redirect();
     }
 }
+ 

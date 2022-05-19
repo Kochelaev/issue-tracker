@@ -4,8 +4,6 @@ namespace Models;
 
 use App\Database;
 
-// use App\Cookier;
-
 abstract class BaseModel
 {
     protected $db;
@@ -26,6 +24,12 @@ abstract class BaseModel
         else return [];
     }
 
+    public function getCount(): ?int
+    {
+        $query = "SELECT COUNT(id) FROM $this->table;";
+        return $this->db->query($query)->fetch()[0];
+    }
+
     public function getForPage(?int $page = 1, ?string $order = 'id', int $perPage = null): array
     {
         $page = $page ?: 1;
@@ -34,24 +38,21 @@ abstract class BaseModel
         else $order = 'id';
         $perPage = $perPage ?: getenv('PER_PAGE');
         $start = $perPage * ($page - 1);
+
         $query =  "SELECT * FROM $this->table
-        ORDER BY `$order`            -- `` подходят только для MySQL? других способов экранирования я не нашел
+        ORDER BY `$order`            -- `` подходят только для MySQL?
         LIMIT $start, $perPage;";
+
         $result = $this->db->query($query);
         if ($result)
             return $result->fetchAll();
         else return [];
     }
 
-    public function getCount(): ?int
-    {
-        $query = "SELECT COUNT(id) FROM $this->table;";
-        return $this->db->query($query)->fetch()[0];
-    }
-
     public function find($id): array
     {
         $query = "SELECT * FROM $this->table WHERE id = '$id';";
+
         $response = $this->db->query($query);
         $result = $response->fetch();
         if ($result === false)
@@ -64,7 +65,9 @@ abstract class BaseModel
         $modelData = array_intersect_key($modelData, array_flip($this->fillables));
         $preparedKeys = implode(', :', array_keys($modelData));
         $keys = implode(',', array_keys($modelData));
+
         $query = "INSERT INTO $this->table ($keys) VALUES (:$preparedKeys);";
+
         $prepare = $this->db->prepare($query);
         $prepare->execute($modelData);
         return $this;
@@ -78,9 +81,11 @@ abstract class BaseModel
             $setString .= " `$key` =:$key,";
         }
         $setString = rtrim($setString, ',');
+        
         $query = "UPDATE $this->table 
             SET $setString
             WHERE id = '$id';";
+
         $prepare = $this->db->prepare($query);
         return $prepare->execute($modelData);
     }

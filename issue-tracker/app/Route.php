@@ -10,29 +10,32 @@ class Route
         if (strpos($uri, '?'))
             $uri = substr($uri, 0, strrpos($uri, '?'));
         $action = substr(strrchr($uri, '.'), 1) ?: $defAction;
+
         $uri = substr($uri, 0, strrpos($uri, '.'));
         $uriParts = explode('/', $uri);
         array_walk($uriParts, function (&$value) {
             $value = ucfirst($value);
         });
+        
         $controller = array_pop($uriParts) ?: $defController;
         $namespace = implode('\\', ($uriParts));
 
-        // разбей на 2 метода
+        self::callAction($namespace, $controller, $action);
+    }
+
+    private static function callAction(?string $namespace, string $controller, string  $action): void
+    {
         $controller = 'Controllers' . $namespace . '\\' . $controller . 'Controller';
-        if (!class_exists($controller)) {
-            throw new \Error("Controller $controller does not exist");
-        }
+        if (!class_exists($controller))
+            throw new \Error("Контроллер $controller не найден");
 
         $objController = new $controller;
-        if (!method_exists($objController, $action)) {
-            throw new \Error("Method $action of $controller does not exist");
-        }
+        if (!method_exists($objController, $action))
+            throw new \Error("Метод $action контроллера $controller не найден");
 
         $objController->$action();
     }
 
-    //maybei redirtct to controller\action?
     public static function redirect(string $uri = null): void
     {
         $adress = 'http://' . $_SERVER['HTTP_HOST'] . "/$uri";
@@ -55,7 +58,7 @@ class Route
         $newurl = self::buildURL($parsed);
         return $newurl;
     }
-    
+
     private static function buildURL(array $parsed): ?string
     {
         $url = $_SERVER['HTTP_HOST'];

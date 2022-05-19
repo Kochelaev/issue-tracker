@@ -19,6 +19,17 @@ class Auth extends Singleton
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
         ]);
+
+        // $capsule->addConnection([     
+        //     'driver'    => getenv('DB_CONNECTION'),
+        //     'host'      => getenv('DB_HOST'), 
+        //     'database'  => getenv('DB_DATABASE'), 
+        //     'username'  => getenv('DB_USERNAME'),
+        //     'password'  => getenv('DB_PASSWORD'),
+        //     'charset'   => 'utf8',
+        //     'collation' => 'utf8_unicode_ci',
+        // ]);
+
         $capsule->bootEloquent();
         Sentinel::disableCheckpoints();
     }

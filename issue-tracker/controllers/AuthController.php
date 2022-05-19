@@ -21,7 +21,7 @@ class AuthController extends BaseController
             'email'    => $_POST['email'],
             'password' => $_POST['password'],
         ];
-        if (Auth::forceAuthenticateAndRemember($credentials)) 
+        if (Auth::forceAuthenticateAndRemember($credentials))
             Route::redirect();
         else {
             Cookier::setWarning('Неверный логин или пароль');

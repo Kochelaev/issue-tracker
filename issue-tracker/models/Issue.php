@@ -5,6 +5,7 @@ namespace Models;
 class Issue extends BaseModel
 {
     protected $table = 'issues';
+    
     protected $fillables = [
         'email',
         'name',

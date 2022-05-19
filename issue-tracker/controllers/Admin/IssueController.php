@@ -4,6 +4,7 @@ namespace Controllers\Admin;
 
 use App\Auth;
 use App\Route;
+use App\Validator;
 use Controllers\BaseController;
 use Models\Issue;
 
@@ -20,21 +21,28 @@ class IssueController extends BaseController
         $model = new Issue();
         $issue = $model->find(intval($_GET['id']));
         if (empty($issue))
-            throw new \Error('нет такой задачи');    //желательно делегировать проверку какому-либо классу 
+            throw new \Error('нет такой задачи');
+
         $this->smarty->assign('issue', $issue);
         $this->smarty->display('admin/updateform.tpl');
     }
 
     public function update()
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $updateData = array_merge(
-                $_POST,
-                ['updated_by' => Auth::check()->id]
-            );    
-        } else throw new \Error('тут нужен метод POST');
+        Validator::CheckPostMethod();
+
+        $request = (new Validator())->prepareRequst()->getRequest();
+        $updateData = array_merge(
+            $request,
+            ['updated_by' => Auth::check()->id]
+        );
+
         $issue = new Issue();
+        if (empty($issue))
+            throw new \Error('попытка изменить не существующую задачу');
+
         $issue->update($_GET['id'], $updateData);
+
         Route::redirect();
     }
 }
