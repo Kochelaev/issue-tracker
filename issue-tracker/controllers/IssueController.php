@@ -24,7 +24,8 @@ class IssueController extends BaseController
     public function display()
     {
         $model = new Issue();
-        if (!$issue = $model->find(intval($_GET['id'])))
+        $issue = $model->find(intval($_GET['id']));
+        if (empty($issue))
             throw new \Error('нет такой задачи');    //желательно делегировать проверку какому-либо классу 
         $this->smarty->assign('issue', $issue);
         $this->smarty->display('issue/display.tpl');
@@ -37,7 +38,7 @@ class IssueController extends BaseController
 
     public function post()
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {             //исключи из запроса поле updated_by
             $issue = new Issue();
             $issue->insert($_POST);
         } else throw new \Error('тут нужен метод POST');

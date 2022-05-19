@@ -9,9 +9,9 @@ use App\Database;
 abstract class BaseModel
 {
     protected $db;
-    protected $table;       //
-    protected $fillables;   //
-    protected $sorters;    // можно убрать, назначаются в наследниках
+    protected $table;
+    protected $fillables;
+    protected $sorters;
 
     public function __construct()
     {
@@ -52,9 +52,11 @@ abstract class BaseModel
     public function find($id): array
     {
         $query = "SELECT * FROM $this->table WHERE id = '$id';";
-        if ($response = $this->db->query($query))
-            return $response->fetch();
-        else return [];
+        $response = $this->db->query($query);
+        $result = $response->fetch();
+        if ($result === false)
+            $result = [];
+        return $result;
     }
 
     public function insert(array $modelData): self
@@ -76,9 +78,9 @@ abstract class BaseModel
             $setString .= " `$key` =:$key,";
         }
         $setString = rtrim($setString, ',');
-        $query = "UPDATE $this->table SET
-        $setString
-        WHERE id = '$id';";
+        $query = "UPDATE $this->table 
+            SET $setString
+            WHERE id = '$id';";
         $prepare = $this->db->prepare($query);
         return $prepare->execute($modelData);
     }
