@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use App\Auth;
 use App\Paginator;
 use App\Route;
 use App\Validator;
@@ -14,14 +15,15 @@ class IssueController extends BaseController
         $perPage = getenv('PER_PAGE');
         $model = new issue();
         $issues = $model->getForPage($_GET['page'], $_GET['sort'], $perPage);
-        
+
         $paginator = new Paginator($model->getCount(), $_GET['page'], $perPage);
         if (($paginator->getPagesCount()) < ($_GET['page']) || $_GET['page'] < 0)
-            throw new \Error('нет такой страницы');
+            throw new \Exception('нет такой страницы');                                 //может стоило делегировать проверки отдельному классу?
 
+        $view = Auth::check()? 'admin/issue/list.tpl': 'issue/list.tpl';            
         $this->smarty->assign('issues', $issues)
             ->assign('paginator', $paginator->getBootstrapLinks())
-            ->display('issue/list.tpl');
+            ->display($view);
     }
 
     public function display()
@@ -30,10 +32,10 @@ class IssueController extends BaseController
         $issue = $model->find(intval($_GET['id']));
 
         if (empty($issue))
-            throw new \Error('нет такой задачи');    
-            
-        $this->smarty->assign('issue', $issue);
-        $this->smarty->display('issue/display.tpl');
+            throw new \Exception('нет такой задачи');
+
+        $this->smarty->assign('issue', $issue)
+            ->display('issue/display.tpl');
     }
 
     public function addForm()
@@ -45,12 +47,11 @@ class IssueController extends BaseController
     {
         Validator::CheckPostMethod();
         $request = (new Validator())->prepareRequst()->getRequest();
-        $request['updated_by'] = null; 
-        
+        $request['updated_by'] = null;
+
         $issue = new Issue();
         $issue->insert($request);
 
         Route::redirect();
     }
 }
- 

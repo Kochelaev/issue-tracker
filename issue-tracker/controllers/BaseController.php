@@ -6,7 +6,6 @@ use Smarty;
 use App\Auth;
 use App\Cookier;
 
-
 abstract class BaseController
 {
     protected $smarty;

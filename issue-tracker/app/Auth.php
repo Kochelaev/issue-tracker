@@ -10,26 +10,15 @@ class Auth extends Singleton
     protected function __construct()
     {
         $capsule = new Capsule;
-        $capsule->addConnection([     // вставь getEnv
-            'driver'    => 'mysql',
-            'host'      => 'issue-tracker-mysql',
-            'database'  => 'tracker',
-            'username'  => 'root',
-            'password'  => 'root',
+        $capsule->addConnection([     
+            'driver'    => getenv('DB_CONNECTION'),
+            'host'      => getenv('DB_HOST'), 
+            'database'  => getenv('DB_DATABASE'), 
+            'username'  => getenv('DB_USERNAME'),
+            'password'  => getenv('DB_PASSWORD'),
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
         ]);
-
-        // $capsule->addConnection([     
-        //     'driver'    => getenv('DB_CONNECTION'),
-        //     'host'      => getenv('DB_HOST'), 
-        //     'database'  => getenv('DB_DATABASE'), 
-        //     'username'  => getenv('DB_USERNAME'),
-        //     'password'  => getenv('DB_PASSWORD'),
-        //     'charset'   => 'utf8',
-        //     'collation' => 'utf8_unicode_ci',
-        // ]);
-
         $capsule->bootEloquent();
         Sentinel::disableCheckpoints();
     }

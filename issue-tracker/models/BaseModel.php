@@ -36,11 +36,13 @@ abstract class BaseModel
         if (is_array($this->sorters))
             $order = in_array($order, $this->sorters) ? $order : 'id';
         else $order = 'id';
-        $perPage = $perPage ?: getenv('PER_PAGE');
+        $flow = $order=='id'? 'DESC': 'ASC'; 
+        // $perPage = $perPage ?: getenv('PER_PAGE');
         $start = $perPage * ($page - 1);
+        
 
         $query =  "SELECT * FROM $this->table
-        ORDER BY `$order`            -- `` подходят только для MySQL?
+        ORDER BY `$order` $flow            -- `` подходят только для MySQL?
         LIMIT $start, $perPage;";
 
         $result = $this->db->query($query);
@@ -81,7 +83,7 @@ abstract class BaseModel
             $setString .= " `$key` =:$key,";
         }
         $setString = rtrim($setString, ',');
-        
+
         $query = "UPDATE $this->table 
             SET $setString
             WHERE id = '$id';";

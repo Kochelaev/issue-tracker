@@ -48,18 +48,6 @@
                             </select>
                         </div>
                     </div>
-
-                    {* <div class="row mb-3">
-                        <div class="col-md-6 offset-md-4">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="status" id="status" >
-
-                                <label class="form-check-label" for="remember">
-                                    Задача закрыта
-                                </label>
-                            </div>
-                        </div>
-                    </div> *}
                
                     {if $issue.updated_by}
                         отредактировано: 

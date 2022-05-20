@@ -6,7 +6,14 @@ class Route
 {
     public static function findActionForURI(string $defController, string $defAction): void
     {
-        $uri = $_SERVER['REQUEST_URI'];
+        $uri = urldecode($_SERVER['REQUEST_URI']);
+
+        if (
+            substr_count($uri, '.') !== 1 && $uri !== '/' && strpos($uri, '/?') !== 0
+            or substr_count($uri, '?') > 1
+        )
+            throw new \Exception("Невереный формат адресса");
+
         if (strpos($uri, '?'))
             $uri = substr($uri, 0, strrpos($uri, '?'));
         $action = substr(strrchr($uri, '.'), 1) ?: $defAction;
@@ -16,35 +23,38 @@ class Route
         array_walk($uriParts, function (&$value) {
             $value = ucfirst($value);
         });
-        
+
         $controller = array_pop($uriParts) ?: $defController;
         $namespace = implode('\\', ($uriParts));
 
         self::callAction($namespace, $controller, $action);
     }
 
-    private static function callAction(?string $namespace, string $controller, string  $action): void
+    private static function callAction(?string $namespace, string $controller, string $action): void
     {
         $controller = 'Controllers' . $namespace . '\\' . $controller . 'Controller';
         if (!class_exists($controller))
-            throw new \Error("Контроллер $controller не найден");
+            throw new \Exception("Контроллер $controller не найден");
 
         $objController = new $controller;
         if (!method_exists($objController, $action))
-            throw new \Error("Метод $action контроллера $controller не найден");
+            throw new \Exception("Метод $action контроллера $controller не найден");
 
         $objController->$action();
     }
 
-    public static function redirect(string $uri = null): void
-    {
-        $adress = 'http://' . $_SERVER['HTTP_HOST'] . "/$uri";
-        header("Location: $adress");
-    }
-
     public static function redirectBack(): void
     {
-        $adress = $_SERVER['HTTP_REFERER'];
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            $adress = $_SERVER['HTTP_REFERER'];
+            header("Location: $adress");
+        } else self::redirect();
+    }
+
+
+    public static function redirect(?string $uri = null): void
+    {
+        $adress = 'http://' . $_SERVER['HTTP_HOST'] . "/$uri";
         header("Location: $adress");
     }
 

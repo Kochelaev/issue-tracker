@@ -27,8 +27,8 @@
                         
                     
                     <li class="nav-item pl-3">
-                        {if $user = $Auth::check()}
-                             Вы вошли как: {$user->email}
+                        {if $Auth::check()->email}
+                            Вы вошли как: {$Auth::check()->email}
                             <a class="nav-link" href="http://{$smarty.server.HTTP_HOST}/Auth.logout">Выйти</a>
                             
                         {else}

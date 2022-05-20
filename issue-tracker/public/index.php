@@ -1,27 +1,20 @@
 <?php
 
 require_once '../vendor/autoload.php';
+require_once '../errorHandler.php';
 
 use App\Route;
+use App\Cookier;
 use josegonzalez\Dotenv\Loader;
 
 (new Loader('../.env'))->parse()->putenv();
 
-// set_error_handler(function ($errno, $errstr) {
-//     if ($errno === E_WARNING) {
-//         trigger_error($errstr, E_ERROR);
-//         throw new Error('E_WARNING!');
-//         return true;
-//     } else return false;
-// });
+ob_start();
 
 // try {
-//     ob_start();
     Route::findActionForURI('Issue', 'list');
-// } catch (Error $t) {
+// } catch (Exception $e) {
 //     ob_clean();
-//     echo ('ой, вы что то сломали<br>');
-//     die($t->getMessage());
-// } finally {
-//     restore_error_handler();
+//     Cookier::setWarning($e->getMessage());
+//     Route::redirect();
 // }

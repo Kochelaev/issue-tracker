@@ -2,8 +2,6 @@
 
 namespace App;
 
-use Error;
-
 class Validator
 {
     protected $request;
@@ -26,7 +24,7 @@ class Validator
     public function prepareRequst(): self
     {
         foreach ($this->request as &$req) {
-            $req = str_replace('`', '\\`', addslashes(nl2br(htmlspecialchars(trim($req)))));
+            $req = str_replace('\\\\', '\\', addslashes(nl2br(htmlspecialchars(trim($req))))); 
         }
         return $this;
     }
@@ -34,6 +32,6 @@ class Validator
     public static function CheckPostMethod(): void
     {
         if ($_SERVER['REQUEST_METHOD'] != 'POST')
-            throw new \Error('нужен метод POST');
+            throw new \Exception('нужен метод POST');
     }
 }
