@@ -20,8 +20,7 @@ class IssueController extends BaseController
     {
         $model = new Issue();
         $issue = $model->find(intval($_GET['id']));
-        if (empty($issue))
-            throw new \Exception('нет такой задачи');
+        Validator::issueExist($issue);
 
         $this->smarty->assign('issue', $issue);
         $this->smarty->display('admin/issue/updateform.tpl');
@@ -31,17 +30,17 @@ class IssueController extends BaseController
     {
         Validator::CheckPostMethod();
 
-        $request = (new Validator())->prepareRequst()->getRequest();
+        $request = (new Validator())->prepareIssueRequst()->getRequest();
         $updateData = array_merge(
             $request,
-            ['updated_by' => Auth::check()->id]
+            ['updated_by' => Auth::check()->id],
         );
 
-        $issue = new Issue();
-        if (empty($issue))
-            throw new \Exception('попытка изменить не существующую задачу');
+        $issueModel = new Issue();
+        $issue = $issueModel->find($_GET['id']);
+        Validator::issueExist($issue);
 
-        $issue->update($_GET['id'], $updateData);
+        $issueModel->update($_GET['id'], $updateData);
 
         Route::redirect();
     }

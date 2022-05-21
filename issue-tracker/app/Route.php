@@ -7,12 +7,7 @@ class Route
     public static function findActionForURI(string $defController, string $defAction): void
     {
         $uri = urldecode($_SERVER['REQUEST_URI']);
-
-        if (
-            substr_count($uri, '.') !== 1 && $uri !== '/' && strpos($uri, '/?') !== 0
-            or substr_count($uri, '?') > 1
-        )
-            throw new \Exception("Невереный формат адресса");
+        Validator::correctUriFormat($uri);
 
         if (strpos($uri, '?'))
             $uri = substr($uri, 0, strrpos($uri, '?'));
@@ -33,12 +28,10 @@ class Route
     private static function callAction(?string $namespace, string $controller, string $action): void
     {
         $controller = 'Controllers' . $namespace . '\\' . $controller . 'Controller';
-        if (!class_exists($controller))
-            throw new \Exception("Контроллер $controller не найден");
-
+        Validator::ControllerExist($controller);
         $objController = new $controller;
-        if (!method_exists($objController, $action))
-            throw new \Exception("Метод $action контроллера $controller не найден");
+
+        Validator::actionExist($controller, $action);
 
         $objController->$action();
     }

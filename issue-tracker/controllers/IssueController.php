@@ -13,14 +13,13 @@ class IssueController extends BaseController
     public function list()
     {
         $perPage = getenv('PER_PAGE');
-        $model = new issue();
-        $issues = $model->getForPage($_GET['page'], $_GET['sort'], $perPage);
+        $issueModel = new issue();
+        $issues = $issueModel->getForPage($_GET['page'], $_GET['sort'], $perPage);
 
-        $paginator = new Paginator($model->getCount(), $_GET['page'], $perPage);
-        if (($paginator->getPagesCount()) < ($_GET['page']) || $_GET['page'] < 0)
-            throw new \Exception('нет такой страницы');                                 //может стоило делегировать проверки отдельному классу?
+        $paginator = new Paginator($issueModel->getCount(), $_GET['page'], $perPage);
+        Validator::pageExist($_GET['page'], $paginator->getPagesCount());
 
-        $view = Auth::check()? 'admin/issue/list.tpl': 'issue/list.tpl';            
+        $view = Auth::check() ? 'admin/issue/list.tpl' : 'issue/list.tpl';
         $this->smarty->assign('issues', $issues)
             ->assign('paginator', $paginator->getBootstrapLinks())
             ->display($view);
@@ -28,11 +27,9 @@ class IssueController extends BaseController
 
     public function display()
     {
-        $model = new Issue();
-        $issue = $model->find(intval($_GET['id']));
-
-        if (empty($issue))
-            throw new \Exception('нет такой задачи');
+        $issueModel = new Issue();
+        $issue = $issueModel->find(intval($_GET['id']));
+        Validator::issueExist($issue);
 
         $this->smarty->assign('issue', $issue)
             ->display('issue/display.tpl');
@@ -46,11 +43,11 @@ class IssueController extends BaseController
     public function post()
     {
         Validator::CheckPostMethod();
-        $request = (new Validator())->prepareRequst()->getRequest();
+        $request = (new Validator())->prepareIssueRequst()->getRequest();
         $request['updated_by'] = null;
 
-        $issue = new Issue();
-        $issue->insert($request);
+        $issueModel = new Issue();
+        $issueModel->insert($request);
 
         Route::redirect();
     }
