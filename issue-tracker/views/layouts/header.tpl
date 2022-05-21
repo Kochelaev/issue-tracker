@@ -21,23 +21,23 @@
                 </a>
             </div>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            
 
-                <ul class="navbar-nav ms-auto">                       
-                        
+            <ul class="navbar-nav ms-auto">                       
                     
-                    <li class="nav-item pl-3">
-                        {if $Auth::check()->email}
-                            Вы вошли как: {$Auth::check()->email}
-                            <a class="nav-link" href="http://{$smarty.server.HTTP_HOST}/Auth.logout">Выйти</a>
-                            
-                        {else}
-                           <a class="nav-link" href="http://{$smarty.server.HTTP_HOST}/Auth.authform">Вход</a>
-                        {/if}
-                    </li>
-           
-                </ul>
-            </div>
+                
+                <li class="nav-item pl-3">
+                    {if $Auth::check()->email}
+                        Вы вошли как: {$Auth::check()->email}
+                        <a class="nav-link" href="http://{$smarty.server.HTTP_HOST}/Auth.logout">Выйти</a>
+                        
+                    {else}
+                        <a class="nav-link" href="http://{$smarty.server.HTTP_HOST}/Auth.authform">Вход</a>
+                    {/if}
+                </li>
+        
+            </ul>
+            
         </div>
     </nav>
 
