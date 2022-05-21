@@ -6,7 +6,7 @@
                 <div class="card-header">Вход</div>
 
                 <div class="card-body">
-                    <form method="POST" action="http://{getenv('HOST')}/auth.login">
+                    <form method="POST" action="http://{$smarty.server.HTTP_HOST}/auth.login">
                         <div class="row mb-3">
                             <label for="email" class="col-md-4 col-form-label text-md-end">Логин</label>
 

@@ -1,6 +1,8 @@
 {include file='layouts/header.tpl'}
 
-{include file='components/sorterform.tpl'}
+{if !empty($issue)}
+    {include file='components/sorterform.tpl'}
+{/if}
 
     <div class = "m-3 p-3">
         {foreach item=issue from=$issues}

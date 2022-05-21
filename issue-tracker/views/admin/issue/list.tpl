@@ -1,10 +1,11 @@
 {include file='layouts/header.tpl'}
 
-{include file='components/sorterform.tpl'}
-
+{if $issues}
+    {include file='components/sorterform.tpl'}
+{/if}
     <div class = "m-3 p-3 " >
         {foreach item=issue from=$issues}
-        <a href = 'issue.display?id={$issue.id}' class="text-decoration-none text-reset">
+        <a href = 'http://{$smarty.server.HTTP_HOST}/issue.display?id={$issue.id}' class="text-decoration-none text-reset">
                 <div class="alert alert-{if $issue.status}success{else}primary{/if}">            
                     <div>Email: {$issue.email}</div>
                     {if $issue.name}<div>Создана: {$issue.name}</div>{/if}
@@ -18,7 +19,7 @@
                     {/if}
                     
                         <button type="submit" class="btn btn-primary mt-4">
-                    <a href = 'admin/issue.updateform?id={$issue.id}' class="text-decoration-none text-reset"> Редактировать</a>
+                    <a href = 'http://{$smarty.server.HTTP_HOST}/admin/issue.updateform?id={$issue.id}' class="text-decoration-none text-reset"> Редактировать</a>
                         </button>
                 </div>
             {foreachelse}
