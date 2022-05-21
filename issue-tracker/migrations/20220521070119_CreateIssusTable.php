@@ -15,7 +15,7 @@ class CreateIssusTable extends Migration
             `title` VARCHAR(255) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
             `email` VARCHAR(255) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
             `name` VARCHAR(255) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
-            `status` CHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+            `status` TINYINT(3) UNSIGNED NULL DEFAULT NULL,
             `description` TEXT NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
             `updated_by` INT(10) UNSIGNED NULL DEFAULT NULL,
             PRIMARY KEY (`id`) USING BTREE,
