@@ -37,11 +37,6 @@
                             </div>
                         </div>
 
-                        <!-- <div class="md-form mb-4 pink-textarea active-pink-textarea">
-                            <label for="description" class="col-md-4 col-form-label text-md-end pr-2 pl-2">Описание:</label>
-                            <textarea rows="3"  id="description" type="text" class="form-control" name="description"> </textarea>
-                        </div> -->
-
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

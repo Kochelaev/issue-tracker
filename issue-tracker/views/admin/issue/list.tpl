@@ -1,22 +1,6 @@
 {include file='layouts/header.tpl'}
 
- <div>
-    <form method="get" class="mt-4">
-        сортировать по: 
-        <select name="sort">
-             <option value="name">Имя пользователя</option>
-             <option value="email">email</option>
-             <option value="status">статус</option>
-           </select>
-           <input class="btn" type="submit" value="сортировать">
-    {if $smarty.get.page}
-        <input type="hidden"  name="page" value="{$smarty.get.page}">
-        <a class="btn" href="?page={$smarty.get.page}" >сбросить фильтр</a>
-    {else}
-       <a class="btn" href="/" >сбросить фильтр</a>
-    {/if}
-    </form>
-</div>
+{include file='components/sorterform.tpl'}
 
     <div class = "m-3 p-3 " >
         {foreach item=issue from=$issues}
