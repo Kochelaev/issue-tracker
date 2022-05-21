@@ -22,6 +22,7 @@ class Paginator
 
     public function getBootstrapLinks(): ?string
     {
+        if ($this->pagesCount < 1) return null; 
         $uri = $_SERVER['REQUEST_URI'];
         if (strpos($uri, '?'))
             $uri = substr($uri, 0, strrpos($uri, '?'));

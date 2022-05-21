@@ -8,15 +8,21 @@
         {foreach item=issue from=$issues}
             <a href = 'issue.display?id={$issue.id}' class="text-decoration-none text-reset">
                 <div class="alert alert-{if $issue.status}success{else}primary{/if}">            
-                    <div>email: {$issue.email}</div>
-                    {if $issue.name}<div>Создана: {$issue.name}</div>{/if}
-                    <div>Статус задачи: {if $issue.status}закрыта{else}открыта{/if}</div>
-                    <div class = "lead text-left">
-                            Задача: {$issue.title}
-                    </div>
+                    <strong>email:</strong>
+                    <div class="px-3">{$issue.email}</div>
+                    
+                    <strong>Создана:</strong>
+                    <div class="px-3">{$issue.name}</div>
+                    
+                    <strong>Статус задачи:</strong>
+                    <div class="px-3">{if $issue.status}закрыта{else}открыта{/if}</div>
+
+                    <strong>Задача:</strong>
+                    <div class="px-3">{$issue.title}</div>
+
                     {if $issue.updated_by}
-                        отредактировано 
-                        {$Auth::findById($issue['updated_by'])->email}
+                        отредактировано
+                        <strong>{$Auth::findById($issue['updated_by'])->email}</strong>
                     {/if}
                 </div>
             </a>

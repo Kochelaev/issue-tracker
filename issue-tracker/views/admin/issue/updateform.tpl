@@ -6,47 +6,36 @@
             <div class="card-header">Редактировать задачу</div>
             <div class="card-body">
                 <form method="POST" action="http://{$smarty.server.HTTP_HOST}/admin/issue.update?id={$issue.id}">
-                    <div class="row mb-3">
-                        <label for="email" class="col-md-4 col-form-label text-md-end">Email:</label>
-                        <div class="col-md-6">
-                            <input id="email" type="email" class="form-control" 
-                            name="email" required autocomplete="email"
-                            value="{$issue.email}">
-                        </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email:</label>
+                        <input id="email" type="email" class="form-control" 
+                        name="email" required autocomplete="email"
+                        value="{$issue.email}">
                     </div>
 
-                    <div class="row mb-3">
-                        <label for="name" class="col-md-4 col-form-label text-md-end">Создано:</label>
-                        <div class="col-md-6">
-                            <input id="name" type="text" class="form-control" name="name" required
-                            value="{$issue.name}">
-                        </div>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Создана:</label>
+                        <input id="name" type="text" class="form-control" name="name" required
+                        value="{$issue.name}">
                     </div>
 
-                        <div class="row mb-3">
-                        <label for="title" class="col-md-4 col-form-label text-md-end">Задача:</label>
-                        <div class="col-md-6">
-                            <input id="title" type="text" class="form-control" name="title" required
-                            value="{$issue.title}">
-                        </div>
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Задача:</label>
+                        <input id="title" type="text" class="form-control" name="title" required
+                        value="{$issue.title}">
                     </div>
 
-                    <div class="row mb-3">
-                        <label for="description" class="col-md-4 col-form-label text-md-end">Описание:</label>
-                        <div class="col-md-6">
-                            <input id="description" type="text" class="form-control" name="description"
-                            value="{$issue.description}">
-                        </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Описание:</label>
+                        <textarea class="form-control" name="description" id="description" rows="3">{$issue.description}</textarea>
                     </div>
 
-                    <div class="row mb-3">
-                        <label for="status" class="col-md-4 col-form-label text-md-end">Статус:</label>
-                        <div class="col-md-6">
-                            <select name="status" class="form-control">
-                                <option value="0">открыта</option>
-                                <option value="1">зактыра</option>
-                            </select>
-                        </div>
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Статус:</label>
+                        <select name="status" class="form-control">
+                            <option value="0">открыта</option>
+                            <option value="1">зактыра</option>
+                        </select>
                     </div>
                
                     {if $issue.updated_by}
@@ -54,12 +43,10 @@
                         {$Auth::findById($issue['updated_by'])->email}
                     {/if}
 
-                    <div class="row mb-0">
-                        <div class="col-md-6 offset-md-4">
-                            <button type="submit" class="btn btn-primary">
-                                Обновить
-                            </button>
-                        </div>
+                    <div class="mt-3">
+                        <button type="submit" class="btn btn-primary">
+                            Обновить
+                        </button>
                     </div> 
 
                 </form>    
