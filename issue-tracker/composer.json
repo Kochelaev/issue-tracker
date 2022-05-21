@@ -4,9 +4,10 @@
         "illuminate/events": "^8.83",
         "symfony/http-foundation": "^5.4",
         "cartalyst/sentinel": "^5.0",
-        "robmorgan/phinx": "^0.12.10",
         "smarty/smarty": "^4.1",
-        "josegonzalez/dotenv": "^3.2"
+        "josegonzalez/dotenv": "^3.2",
+        "davedevelopment/phpmig": "^1.7",
+        "pimple/pimple": "^3.5"
     },
     
     "autoload": {

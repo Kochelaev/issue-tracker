@@ -11,10 +11,10 @@ use josegonzalez\Dotenv\Loader;
 
 ob_start();
 
-// try {
+try {
     Route::findActionForURI('Issue', 'list');
-// } catch (Exception $e) {
-//     ob_clean();
-//     Cookier::setWarning($e->getMessage());
-//     Route::redirect();
-// }
+} catch (Exception $e) {
+    ob_clean();
+    Cookier::setWarning($e->getMessage());
+    Route::redirect();
+}
