@@ -1,31 +1,31 @@
 # Быстрый старт
 
-####клонируем проект с git
+#### клонируем проект с git
 ```shell
 git clone git@github.com:Kochelaev/issue-tracker.git
 ```  
 
-####переходим в директорию проекта
+#### переходим в директорию проекта
 ```shell
 cd issue-tracker/
 ```  
 
-####Запускаем контейнер
+#### Запускаем контейнер
 ```shell
 docker-compose up -d
 ```  
 
-####Создаем .env файл
+#### Создаем .env файл
 ```shell
 cp .env.example issue-tracker/.env
 ```  
 
-####Устанавливаем необходимые компоненты
+#### Устанавливаем необходимые компоненты
 ```shell
 composer install -d issue-tracker/
 ```  
 
-####Стартуем миграции
+#### Стартуем миграции
 ```shell
 docker exec issue-tracker-app php vendor/bin/phpmig migrate
 ```  
@@ -37,23 +37,23 @@ docker exec issue-tracker-app php vendor/bin/phpmig migrate
 База данных доступна по порту: 3366 (3306 внутри контейнера).  
 
 
-#Компоненты  
+# Компоненты  
 
 1. `cartalyst/sentinel` для авторизации пользователей.  
 2. `josegonzalez/dotenv` для парсинга .env файла  
 3. `davedevelopment/phpmig` для миграций БД.  
 5. `smarty/smarty` шаблонизатор.  
 
-#Структура проекта  
+# Структура проекта  
 
-##Директории:  
+## Директории:  
 * `app`  - классы приложения  
 * `controllers` - контроллеры  
 * `models` - модели  
 * `public` - является точкой входа в приложение  
 * `views` содержит шаблоны smarty  
 
-##Классы  
+## Классы  
 * `App\Singleton` - абстрактный класс, все наследники которого реалзиуют одноименный паттерн.  
 * `App\Database` - наследник класса `Singleton`, предоставляет приложению доступ к БД.  
 * `App\Auth` - наследник класса `Singleton`, класс-обертка над компонентом `cartalyst/sentinel`.  
