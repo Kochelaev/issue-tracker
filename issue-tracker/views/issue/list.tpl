@@ -1,6 +1,6 @@
 {include file='layouts/header.tpl'}
 
-{if !empty($issue)}
+{if !empty($issues)}
     {include file='components/sorterform.tpl'}
 {/if}
 
