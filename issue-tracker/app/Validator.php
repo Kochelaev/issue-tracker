@@ -25,7 +25,7 @@ class Validator
     private function prepareRequst(): self
     {
         foreach ($this->request as &$req) {
-            $req = str_replace('\\\\', '\\', addslashes(nl2br(htmlspecialchars(trim($req)))));
+            $req = str_replace('\\\\', '\\', addslashes(htmlspecialchars(trim($req))));
         }
         return $this;
     }
