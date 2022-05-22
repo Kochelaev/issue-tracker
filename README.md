@@ -62,5 +62,5 @@ docker exec issue-tracker-app php vendor/bin/phpmig migrate
 * `App\Cookier` - управление Cookie-файлами.  
 * `App\Paginator` - генерация кнопок-ссылок для постраничного отображения (да, да, он самодельный =))  
 * `Controllers\BaseControlle` - родительский класс для всех контроллеров приложения.  
-* `Models\BaseModel` - родитьльский класс для всех моделей приложения.  
+* `Models\BaseModel` - родительский класс для всех моделей приложения.  
 
